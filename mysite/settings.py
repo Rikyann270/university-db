@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://university-scholarship.up.railway.app/',
+    'https://university-scholarship.up.railway.app',
       ]
 
 
