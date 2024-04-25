@@ -13,6 +13,8 @@ def upload_location(instance, filename, **kwargs):
     )
     return file_path
 
+
+
 class Scholarship(models.Model):
     Fundings=(
         ('option1', 'Fully funded'),
@@ -84,6 +86,5 @@ class Guide(models.Model):
 
 
 
-@receiver(post_delete, sender=Scholarship)
 def submission_delete(sender, instance, **kwargs):
-    instance.Image.delete(False)
+    instance.sponsor_Image.delete(False)
