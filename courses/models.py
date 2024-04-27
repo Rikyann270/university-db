@@ -30,7 +30,7 @@ class Course_detail(models.Model):
 
 
 
-    name                             = models.CharField(max_length=50, null=False, blank=False)
+    
     course_name                      = models.CharField(max_length=50, null=False, blank=False)
     scholarship                      = models.CharField(max_length=50, null=False, blank=False)
     universities_offering            = models.CharField(max_length=50, null=False, blank=False)
@@ -42,4 +42,4 @@ class Course_detail(models.Model):
     Eligibility                      = models.CharField(max_length=50,default='', null=False,blank=False)
 
     def __str__(self):
-        return self.name
+        return self.course_name
