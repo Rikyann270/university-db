@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 from premium.models import(
-    Consultations,
+    Consultation,
 )
 
-admin.site.register(Consultations)
+admin.site.register(Consultation)
 
 
 
