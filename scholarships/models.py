@@ -123,7 +123,7 @@ def pre_save_scholarship_receiver(sender, instance, *args, **kwargs):
 
 
     if not instance.slug:
-        instance.slug = slugify(instance.tags + "-" + instance.name)
+        instance.slug = slugify(instance.name)
 
        
 
