@@ -53,8 +53,9 @@ class Scholarship(models.Model):
 
 
     name                        = models.CharField(max_length=50, null=False, blank=False)
+    University_name             = models.CharField(max_length=50, null=False, default="DEFAULT", blank=False)
     course                      = models.CharField(max_length=50, null=False, blank=False)
-    eligibity                   = models.CharField(max_length=50, null=False, blank=False)
+    eligibity                   = models.CharField(max_length=3000, null=False, blank=False)
     # tag                         = models.CharField(max_length=50, null=False, blank=False,choices=Tags)
     tags                        = models.ManyToManyField(Tag, related_name='scholarships')
     country                     = models.CharField(max_length=50, null=False, blank=False)
@@ -62,8 +63,8 @@ class Scholarship(models.Model):
     closing_date                = models.DateField(null=False, blank=False)
     funding_status              = models.CharField(max_length=50, null=False, blank=False,choices=Fundings)
     degree                      = models.CharField(max_length=50, null=False, blank=False,choices=Degrees)
-    course_Abbreviation         = models.CharField(max_length=50, default='', null=False, blank=False)
-    subject                     = models.CharField(max_length=50, null=False,blank=False)
+    course_Abbreviation         = models.CharField(max_length=100, default='', null=False, blank=False)
+    subject                     = models.CharField(max_length=100, null=False,blank=False)
     sponsor                     = models.CharField(max_length=50,default='', null=False,blank=False)
     sponsor_Image               = models.ImageField(upload_to=upload_location, null=True, blank=False)
     applicants                  = models.IntegerField( null=False, blank=False,)
@@ -75,6 +76,23 @@ class Scholarship(models.Model):
 
 
 
+class submitted_scholarship(models.Model):
+
+    name                        = models.CharField(max_length=50, null=False, blank=False)
+    user                        = models.CharField(max_length=50, null=False, blank=False)
+    subject                     = models.CharField(max_length=100, null=False, blank=False)
+    nationality                 = models.CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+    
+class Universitie(models.Model):
+
+    name                        = models.CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+    
 class Universitie(models.Model):
 
     name                        = models.CharField(max_length=50, null=False, blank=False)
@@ -105,7 +123,7 @@ def pre_save_scholarship_receiver(sender, instance, *args, **kwargs):
 
 
     if not instance.slug:
-        instance.slug = slugify(instance.tag + "-" + instance.name)
+        instance.slug = slugify(instance.tags + "-" + instance.name)
 
        
 
