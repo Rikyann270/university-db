@@ -10,6 +10,8 @@ from scholarships.models import(
     # Job,
     Guide,
     Universitie,
+    submitted_scholarship,
+    
 )
 
 from scholarships.api.serializers import (
@@ -18,6 +20,7 @@ from scholarships.api.serializers import (
     # JobSerializer,
     GuideSerializer,
     UniversitySerializer,
+    Submitted_scholarshipSerializer,
 
 
     )
@@ -40,7 +43,7 @@ def api_scholarship_detail_view(request, slug):
 
 
 class ApistagSerializerListView(ListAPIView):
-    queryset = Scholarship.objects.all()
+    queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = PageNumberPagination
 
@@ -52,13 +55,13 @@ class ApistagSerializerListView(ListAPIView):
 
 
 class ApiguideSerializerListView(ListAPIView):
-    queryset = Scholarship.objects.all()
+    queryset = Guide.objects.all()
     serializer_class = GuideSerializer
     pagination_class = PageNumberPagination
 
 
 class ApiuniversitySerializerListView(ListAPIView):
-    queryset = Scholarship.objects.all()
+    queryset = Universitie.objects.all()
     serializer_class = UniversitySerializer
     pagination_class = PageNumberPagination
 
@@ -69,4 +72,10 @@ class ApiuniversitySerializerListView(ListAPIView):
 class ApischolarshipsListView(ListAPIView):
     queryset = Scholarship.objects.all()
     serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+
+
+class Apisubmitted_scholarshipListView(ListAPIView):
+    queryset = submitted_scholarship.objects.all()
+    serializer_class = Submitted_scholarshipSerializer
     pagination_class = PageNumberPagination

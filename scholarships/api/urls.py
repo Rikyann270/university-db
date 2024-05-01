@@ -1,12 +1,14 @@
 from django.urls import path
 
 from scholarships.api.views import (
+    # single
     api_scholarship_detail_view,
+    #list
     ApischolarshipsListView,
     ApistagSerializerListView,
-    # ApijobSerializerListView,
     ApiguideSerializerListView,
     ApiuniversitySerializerListView,
+    Apisubmitted_scholarshipListView,
 
 
     )
@@ -24,6 +26,7 @@ urlpatterns = [
     # path('jobs/list', ApijobSerializerListView.as_view(), name="list"),
     path('guides/list', ApiguideSerializerListView.as_view(), name="list"),
     path('universities/list', ApiuniversitySerializerListView.as_view(), name="list"),
+    path('submitted_scholarship/list', Apisubmitted_scholarshipListView.as_view(), name="list"),
 
 
 

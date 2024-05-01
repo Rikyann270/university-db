@@ -43,3 +43,13 @@ class Course_detail(models.Model):
 
     def __str__(self):
         return self.course_name
+
+
+
+class Subject(models.Model):
+
+    subject                          = models.CharField(max_length=100, null=False,blank=False)
+  
+
+    def __str__(self):
+        return self.subject
