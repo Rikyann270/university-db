@@ -15,7 +15,7 @@ class ScholarshipSerializer(serializers.ModelSerializer):
         model = Scholarship
         # fields = ['name', 'price','Image']
         fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
-                  "degree","course_Abbreviation","subject","sponsor","sponsor_Image","applicants",
+                  "degree","course_Abbreviation","subject","sponsor","applicants",
                   ]
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
