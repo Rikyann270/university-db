@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from scholarships.models import(
     Scholarship,
+    Degree,
     Tag,
     submitted_scholarship,
     Guide,
@@ -10,15 +11,18 @@ from scholarships.models import(
 
 class ScholarshipSerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()   
+    degree = serializers.SerializerMethodField()   
 
     class Meta:
         model = Scholarship
         # fields = ['name', 'price','Image']
         fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
-                  "degree","course_Abbreviation","subject","sponsor","applicants",
+                  "degree","course_Abbreviation","subject","sponsor","applicants","slug",
                   ]
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
+    def get_degree(self, obj):
+        return [degree.name for degree in obj.degree.all()]
 
 class TagSerializer(serializers.ModelSerializer):   
 

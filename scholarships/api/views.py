@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter, OrderingFilter 
 
 from scholarships.models import(
     Scholarship,
@@ -73,9 +74,14 @@ class ApischolarshipsListView(ListAPIView):
     queryset = Scholarship.objects.all()
     serializer_class = ScholarshipSerializer
     pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('name', 'University_name', 'course')
 
 
 class Apisubmitted_scholarshipListView(ListAPIView):
     queryset = submitted_scholarship.objects.all()
     serializer_class = Submitted_scholarshipSerializer
     pagination_class = PageNumberPagination
+
+

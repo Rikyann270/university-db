@@ -10,6 +10,7 @@ urlpatterns = [
     
     #rest_framework urls
     path('api/scholarships/', include('scholarships.api.urls', 'scholarships_api')),
+    path('api/courses/', include('courses.api.urls', 'courses_api')),
 
 
 
