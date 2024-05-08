@@ -15,10 +15,10 @@ class ScholarshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Scholarship
-        # fields = ['name', 'price','Image']
-        fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
+        fields = ['name', 'University_name', 'Scholarship_image', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
                   "degree","course_Abbreviation","subject","sponsor","applicants","slug",
                   ]
+
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
     def get_degree(self, obj):

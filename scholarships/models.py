@@ -7,10 +7,32 @@ from django.db.models.signals import post_delete
 from django.db.models.signals import post_save
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+
 
 
 def upload_location(instance, filename, **kwargs):
     file_path = 'scholarship-university-img/{filename}'.format(
+        filename=filename
+    )
+    return file_path
+
+
+def upload_location2(instance, filename, **kwargs):
+    file_path = 'scholarship-icon-images/{filename}'.format(
+        filename=filename
+    )
+    return file_path
+
+
+
+
+
+def upload_location3(instance, filename, **kwargs):
+    file_path = '{filename}'.format(
         filename=filename
     )
     return file_path
@@ -69,6 +91,7 @@ class Scholarship(models.Model):
 
     name                        = models.CharField(max_length=100, null=False, blank=False)
     University_name             = models.CharField(max_length=100, null=False, default="", blank=False)
+    Scholarship_image           = models.ImageField(upload_to=upload_location2, null=True, blank=True)
     course                      = models.CharField(max_length=100, null=False, blank=True)
     eligibity                   = models.CharField(max_length=3000, null=False, blank=False)
     tags                        = models.ManyToManyField(Tag, related_name='scholarships')
@@ -85,14 +108,57 @@ class Scholarship(models.Model):
     slug                        = models.SlugField(blank=True, max_length=200, unique=True)
     
     def save(self, *args, **kwargs):
+        # deleting old image updating
+        if self.pk:
+            # Get the original instance from the database
+            orig = type(self).objects.get(pk=self.pk)
+            # If the image has changed, delete the old one
+            if orig.Scholarship_image != self.Scholarship_image:
+                orig.Scholarship_image.delete(save=False)
+
         super().save(*args, **kwargs)
         # saving before tagging to solve ID error
         tag_names = "- ".join(tag.name for tag in self.tags.all())
         closing_date_str = self.closing_date.strftime('%Y-%m-%d')
         self.slug = slugify(tag_names + "__" + closing_date_str + "__" + self.name)
-        super().save(*args, **kwargs)
 
-  
+        
+        # Image cropping logic using Pillow
+        if self.Scholarship_image:
+            image_path = self.Scholarship_image.path
+            img = Image.open(image_path)
+
+            # Resize the image to fit within a 1200x370 box
+            img.thumbnail((1200, 370))
+
+            # Create a transparent background
+            background = Image.new('RGBA', (1200, 370), (255, 255, 255, 255))
+
+            # Calculate the position to paste the resized image (center)
+            left = (1200 - img.width) // 2
+            top = (370 - img.height) // 2
+
+            # Paste the resized image onto the transparent background
+            background.paste(img, (left, top))
+
+            # Convert the image to RGB mode
+            img_rgb = background.convert('RGB')
+
+            # Save the processed image in PNG format
+            output_io = BytesIO()
+            img_rgb.save(output_io, format='PNG')
+            output_io.seek(0)
+
+                        # Delete the original image
+            self.Scholarship_image.delete(save=False)
+
+            # Save the processed image back to the original field
+            file_path = upload_location3(self, self.Scholarship_image.name.split('/')[-1])
+            self.Scholarship_image.save(file_path, ContentFile(output_io.getvalue()), save=False)
+            
+        
+
+
     def __str__(self):
         return self.name
 
@@ -132,9 +198,9 @@ class Guide(models.Model):
 
 
 
-# @receiver(post_delete, sender=Scholarship)
-# def submission_delete(sender, instance, **kwargs):
-#     instance.sponsor_Image.delete(save=False)
+@receiver(post_delete, sender=Scholarship)
+def submission_delete(sender, instance, **kwargs):
+    instance.img.delete(save=False)
 
 
 
