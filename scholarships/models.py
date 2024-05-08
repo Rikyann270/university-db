@@ -21,22 +21,18 @@ def upload_location(instance, filename, **kwargs):
     return file_path
 
 
-def upload_location2(instance, filename, **kwargs):
-    file_path = 'scholarship-icon-images/{filename}'.format(
-        filename=filename
-    )
-    return file_path
-
-
-
-
-
 def upload_location3(instance, filename, **kwargs):
     file_path = '{filename}'.format(
         filename=filename
     )
     return file_path
 
+
+def upload_location2(instance, filename, **kwargs):
+    file_path = 'scholarship-icon-images/{filename}'.format(
+        filename=filename
+    )
+    return file_path
 
 
 class Tag(models.Model):
@@ -126,7 +122,8 @@ class Scholarship(models.Model):
         # Image cropping logic using Pillow
         if self.Scholarship_image:
             image_path = self.Scholarship_image.path
-            img = Image.open(image_path)
+            img = Image.open(image_path).convert('RGB')
+
 
             # Resize the image to fit within a 1200x370 box
             img.thumbnail((1200, 370))
@@ -138,23 +135,25 @@ class Scholarship(models.Model):
             left = (1200 - img.width) // 2
             top = (370 - img.height) // 2
 
+            # Delete the original gfdgvbfdvb
+            default_storage.delete(image_path)
+
             # Paste the resized image onto the transparent background
             background.paste(img, (left, top))
 
             # Convert the image to RGB mode
             img_rgb = background.convert('RGB')
 
+
             # Save the processed image in PNG format
             output_io = BytesIO()
             img_rgb.save(output_io, format='PNG')
             output_io.seek(0)
 
-                        # Delete the original image
-            self.Scholarship_image.delete(save=False)
-
             # Save the processed image back to the original field
             file_path = upload_location3(self, self.Scholarship_image.name.split('/')[-1])
             self.Scholarship_image.save(file_path, ContentFile(output_io.getvalue()), save=False)
+            
             
         
 
