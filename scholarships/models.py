@@ -138,10 +138,10 @@ class Scholarship(models.Model):
             # Delete the original gfdgvbfdvb
             default_storage.delete(image_path)
 
-            # Paste the resized image onto the transparent background
+            # Paste the resized image onto the transparent background 
             background.paste(img, (left, top))
 
-            # Convert the image to RGB mode
+            # Convert the image to RGB mode some errors fixed
             img_rgb = background.convert('RGB')
 
 
