@@ -126,20 +126,24 @@ class Scholarship(models.Model):
 
 
             # Resize the image to fit within a 1200x370 box
+            
             img.thumbnail((1200, 370))
+            print(img.thumbnail,"this is image size")
+            
 
             # Create a transparent background
-            background = Image.new('RGBA', (1200, 370), (255, 255, 255, 255))
+            background = Image.new('RGBA', (700, img.height), (255, 250, 250, 255))
+            
 
             # Calculate the position to paste the resized image (center)
-            left = (1200 - img.width) // 2
-            top = (370 - img.height) // 2
+            left = (700 - img.width) // 2
+            top = (img.height - img.height) //2
 
             # Delete the original gfdgvbfdvb
             default_storage.delete(image_path)
 
             # Paste the resized image onto the transparent background 
-            background.paste(img, (left, top))
+            background.paste(img, (left,top))
 
             # Convert the image to RGB mode some errors fixed
             img_rgb = background.convert('RGB')
