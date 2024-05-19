@@ -48,18 +48,20 @@ INSTALLED_APPS = [
     # myapps
     # 'whitenoise.runserver_nostatic',
     'rest_framework',
-    # 'rest_framework.authtoken',
+    'rest_framework.authtoken',
     'scholarships',
     'courses',
     'premium',
     'jobs',
+    'accounts',
+    
     
 
 ]
 X_FRAME_OPTIONS='SAMEORIGIN'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
 
     ],
 
@@ -100,6 +102,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'accounts.Account'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 

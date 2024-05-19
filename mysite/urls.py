@@ -9,6 +9,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     #rest_framework urls
+
+    # account
+    path('api/accounts/', include('accounts.api.urls', 'accounts_api')),
+
+    #other
     path('api/scholarships/', include('scholarships.api.urls', 'scholarships_api')),
     path('api/courses/', include('courses.api.urls', 'courses_api')),
 
