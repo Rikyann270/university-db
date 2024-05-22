@@ -6,6 +6,7 @@ from django.conf import settings
 admin.site.site_header = 'Schola Administration'
 
 urlpatterns = [
+    path('', include('accounts.urls')),
     path('admin/', admin.site.urls),
     
     #rest_framework urls
