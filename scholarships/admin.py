@@ -45,6 +45,7 @@ class ScholarshipAdmin(admin.ModelAdmin):
     # ordering = ('name',)
     # list_filter = ('country',)
     list_filter = ('closing_date','country',)
+    list_per_page=100
 
     list_display = ('name', )  # Display a preview of the image in the admin list view
     # readonly_fields = ('Scholarship_image_preview',)  # Make the image preview field read-only

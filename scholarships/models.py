@@ -76,6 +76,7 @@ class Scholarship(models.Model):
         ('Underfunded', 'Underfunded'),
         ('Unfunded', 'Unfunded'),
         ('Self-funded', 'Self-funded'),
+        ('Tuition free', 'Tuition free'),
     )
     Tags=(
         ('icon1', 'icon1'),
@@ -94,9 +95,9 @@ class Scholarship(models.Model):
     tags                        = models.ManyToManyField(Tag, related_name='scholarships')
     country                     = models.CharField(max_length=100, null=False, blank=False)
     completion_time             = models.DateField(null=False, default="0001-01-1",blank=True)
-    closing_date                = models.DateField(null=False, blank=False)
-    funding_status              = models.CharField(max_length=100, null=False, blank=False,choices=Fundings)
-    degree                      = models.ManyToManyField(Degree, related_name='scholarships')
+    closing_date                = models.DateField(null=False, default="0001-01-1", blank=False)
+    funding_status              = models.CharField(max_length=100, null=False, blank=False,)
+    degree                      = models.CharField(max_length=100, null=False, blank=False,)
     course_Abbreviation         = models.CharField(max_length=100, default='', null=False, blank=True)
     subject                     = models.CharField(max_length=100, null=False,blank=True)
     sponsor                     = models.CharField(max_length=100,default='', null=False,blank=True)
@@ -121,43 +122,43 @@ class Scholarship(models.Model):
 
         
         # Image cropping logic using Pillow
-        if self.Scholarship_image:
-            image_path = self.Scholarship_image.path
-            img = Image.open(image_path).convert('RGB')
+        # if self.Scholarship_image:
+        #     image_path = self.Scholarship_image.path
+        #     img = Image.open(image_path).convert('RGB')
 
 
-            # Resize the image to fit within a 1200x370 box
+        #     # Resize the image to fit within a 1200x370 box
             
-            img.thumbnail((1200, 370))
-            print(img.thumbnail,"this is image size")
-            
+        #     img.thumbnail((1200, 370))
 
-            # Create a transparent background
-            background = Image.new('RGBA', (700, img.height), (255, 250, 250, 255))
             
 
-            # Calculate the position to paste the resized image (center)
-            left = (700 - img.width) // 2
-            top = (img.height - img.height) //2
+        #     # Create a transparent background
+        #     background = Image.new('RGBA', (700, img.height), (255, 250, 250, 255))
+            
 
-            # Delete the original gfdgvbfdvb
-            default_storage.delete(image_path)
+        #     # Calculate the position to paste the resized image (center)
+        #     left = (700 - img.width) // 2
+        #     top = (img.height - img.height) //2
 
-            # Paste the resized image onto the transparent background 
-            background.paste(img, (left,top))
+        #     # Delete the original gfdgvbfdvb
+        #     default_storage.delete(image_path)
 
-            # Convert the image to RGB mode some errors fixed
-            img_rgb = background.convert('RGB')
+        #     # Paste the resized image onto the transparent background 
+        #     background.paste(img, (left,top))
+
+        #     # Convert the image to RGB mode some errors fixed
+        #     img_rgb = background.convert('RGB')
 
 
-            # Save the processed image in PNG format
-            output_io = BytesIO()
-            img_rgb.save(output_io, format='PNG')
-            output_io.seek(0)
+        #     # Save the processed image in PNG format
+        #     output_io = BytesIO()
+        #     img_rgb.save(output_io, format='PNG')
+        #     output_io.seek(0)
 
-            # Save the processed image back to the original field
-            file_path = upload_location3(self, self.Scholarship_image.name.split('/')[-1])
-            self.Scholarship_image.save(file_path, ContentFile(output_io.getvalue()), save=False)
+        #     # Save the processed image back to the original field
+        #     file_path = upload_location3(self, self.Scholarship_image.name.split('/')[-1])
+        #     self.Scholarship_image.save(file_path, ContentFile(output_io.getvalue()), save=False)
             
             
         
@@ -249,7 +250,8 @@ class Guide(models.Model):
 
 @receiver(post_delete, sender=Scholarship)
 def submission_delete(sender, instance, **kwargs):
-    instance.img.delete(save=False)
+    if instance.Scholarship_image:
+        instance.Scholarship_image.delete(save=False)
 
 
 

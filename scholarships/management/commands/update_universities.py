@@ -1,10 +1,7 @@
-
-
 from django.core.management.base import BaseCommand
 import pandas as pd
 from scholarships.models import Universitie
 import requests
-
 from django.core.files import File
 from io import BytesIO
 import os
