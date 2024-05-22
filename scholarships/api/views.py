@@ -76,7 +76,53 @@ class ApischolarshipsListView(ListAPIView):
     pagination_class = PageNumberPagination
         #searching
     filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ('name', 'University_name', 'course')
+    search_fields = ('name', 'University_name', 'course','degree')
+    
+
+class Apischolarships_degree_ListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+    # search_fields = ('name', 'University_name', 'course','degree')
+    search_fields = ('degree', )
+
+class Apischolarships_subject_ListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+
+    search_fields = ('subject', )
+
+class Apischolarships_eligibity_ListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+
+    search_fields = ('eligibity', )
+
+class Apischolarships_country_ListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+
+    search_fields = ('country', )
+
+class Apischolarships_closing_date_ListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+        #searching
+    filter_backends = (SearchFilter, OrderingFilter)
+
+    search_fields = ('closing_date', )
 
 
 class Apisubmitted_scholarshipListView(ListAPIView):
