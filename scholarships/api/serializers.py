@@ -11,7 +11,7 @@ from scholarships.models import(
 
 class ScholarshipSerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()   
-    degree = serializers.SerializerMethodField()   
+    # degree = serializers.SerializerMethodField()   
 
     class Meta:
         model = Scholarship
@@ -21,8 +21,8 @@ class ScholarshipSerializer(serializers.ModelSerializer):
 
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
-    def get_degree(self, obj):
-        return [degree.name for degree in obj.degree.all()]
+    # def get_degree(self, obj):
+    #     return [degree.name for degree in obj.degree.all()]
 
 class TagSerializer(serializers.ModelSerializer):   
 
