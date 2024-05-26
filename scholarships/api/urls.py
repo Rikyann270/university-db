@@ -35,7 +35,7 @@ urlpatterns = [
     path('subject/list', Apischolarships_subject_ListView.as_view(), name="list"),
     path('eligibity/list', Apischolarships_eligibity_ListView.as_view(), name="list"),
     path('country/list', Apischolarships_country_ListView.as_view(), name="list"),
-    path('closing_dat/list', Apischolarships_closing_date_ListView.as_view(), name="list"),
+    path('closing_date/list', Apischolarships_closing_date_ListView.as_view(), name="list"),
 
 
     path('tags/list', ApistagSerializerListView.as_view(), name="list"),
