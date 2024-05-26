@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
 
 from scholarships.api.views import (
     # single
@@ -11,11 +12,9 @@ from scholarships.api.views import (
     Apisubmitted_scholarshipListView,
 
     # searching
-    Apischolarships_degree_ListView,
-    Apischolarships_subject_ListView,
-    Apischolarships_eligibity_ListView,
-    Apischolarships_country_ListView,
-    Apischolarships_closing_date_ListView,
+
+    # filter_multile
+    ApischolarshipViewSet
 
 
 
@@ -23,20 +22,21 @@ from scholarships.api.views import (
 
 app_name = 'scholarships'
 
+router = DefaultRouter()
+router.register(r'scholarships', ApischolarshipViewSet)
+
 urlpatterns = [
+     path('filter/', include(router.urls)),
+    #  http://127.0.0.1:8000/api/scholarships/filter/scholarships?degree=phd&funding_status=Fully funded
     path('<slug>/', api_scholarship_detail_view, name="detail"),
     # path('create', api_create_record_view, name="create"),
 
 
     #main search
     path('scholarship/list', ApischolarshipsListView.as_view(), name="list"),
+    # main 2
+    # path('scholarship2/list', ApischolarshipsListView22.as_view(), name="scholarship2"),
     # searching attr
-    path('degree/list', Apischolarships_degree_ListView.as_view(), name="list"),
-    path('subject/list', Apischolarships_subject_ListView.as_view(), name="list"),
-    path('eligibity/list', Apischolarships_eligibity_ListView.as_view(), name="list"),
-    path('country/list', Apischolarships_country_ListView.as_view(), name="list"),
-    path('closing_date/list', Apischolarships_closing_date_ListView.as_view(), name="list"),
-
 
     path('tags/list', ApistagSerializerListView.as_view(), name="list"),
     # path('jobs/list', ApijobSerializerListView.as_view(), name="list"),

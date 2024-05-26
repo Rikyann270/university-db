@@ -1,9 +1,11 @@
-from rest_framework import status
+from rest_framework import status,viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter 
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 from scholarships.models import(
     Scholarship,
@@ -68,6 +70,17 @@ class ApiuniversitySerializerListView(ListAPIView):
 
 
 
+class ApischolarshipViewSet(viewsets.ModelViewSet):
+    queryset = Scholarship.objects.all()
+    serializer_class = ScholarshipSerializer
+    pagination_class = PageNumberPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
+                  "degree","course_Abbreviation","subject","applicants","slug",
+                  ]
+    
+
+
 
 
 class ApischolarshipsListView(ListAPIView):
@@ -79,50 +92,7 @@ class ApischolarshipsListView(ListAPIView):
     search_fields = ('name', 'University_name', 'course','degree')
     
 
-class Apischolarships_degree_ListView(ListAPIView):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    pagination_class = PageNumberPagination
-        #searching
-    filter_backends = (SearchFilter, OrderingFilter)
-    # search_fields = ('name', 'University_name', 'course','degree')
-    search_fields = ('degree', )
 
-class Apischolarships_subject_ListView(ListAPIView):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    pagination_class = PageNumberPagination
-        #searching
-    filter_backends = (SearchFilter, OrderingFilter)
-
-    search_fields = ('subject', )
-
-class Apischolarships_eligibity_ListView(ListAPIView):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    pagination_class = PageNumberPagination
-        #searching
-    filter_backends = (SearchFilter, OrderingFilter)
-
-    search_fields = ('eligibity', )
-
-class Apischolarships_country_ListView(ListAPIView):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    pagination_class = PageNumberPagination
-        #searching
-    filter_backends = (SearchFilter, OrderingFilter)
-
-    search_fields = ('country', )
-
-class Apischolarships_closing_date_ListView(ListAPIView):
-    queryset = Scholarship.objects.all()
-    serializer_class = ScholarshipSerializer
-    pagination_class = PageNumberPagination
-        #searching
-    filter_backends = (SearchFilter, OrderingFilter)
-
-    search_fields = ('closing_date', )
 
 
 class Apisubmitted_scholarshipListView(ListAPIView):
