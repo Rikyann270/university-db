@@ -11,6 +11,9 @@ from scholarships.api.views import (
     ApiuniversitySerializerListView,
     Apisubmitted_scholarshipListView,
 
+    # University_country_Serializer
+    Api_University_country_SerializerListView,
+
     # searching
 
     # filter_multile
@@ -43,6 +46,7 @@ urlpatterns = [
     path('guides/list', ApiguideSerializerListView.as_view(), name="list"),
     path('universities/list', ApiuniversitySerializerListView.as_view(), name="list"),
     path('submitted_scholarship/list', Apisubmitted_scholarshipListView.as_view(), name="list"),
+    path('university_country/list', Api_University_country_SerializerListView.as_view(), name="list"),
 
 
 

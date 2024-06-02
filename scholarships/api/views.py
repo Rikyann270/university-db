@@ -5,6 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter 
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 
 
 from scholarships.models import(
@@ -24,6 +25,7 @@ from scholarships.api.serializers import (
     GuideSerializer,
     UniversitySerializer,
     Submitted_scholarshipSerializer,
+    University_country_Serializer,
 
 
     )
@@ -68,8 +70,14 @@ class ApiuniversitySerializerListView(ListAPIView):
     serializer_class = UniversitySerializer
     pagination_class = PageNumberPagination
 
+# University_country_Serializer
+class Api_University_country_SerializerListView(ListAPIView):
+    queryset = Scholarship.objects.all()
+    serializer_class = University_country_Serializer
+    pagination_class = PageNumberPagination
 
 
+# api filter    
 class ApischolarshipViewSet(viewsets.ModelViewSet):
     queryset = Scholarship.objects.all()
     serializer_class = ScholarshipSerializer
@@ -78,6 +86,19 @@ class ApischolarshipViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
                   "degree","course_Abbreviation","subject","applicants","slug",
                   ]
+    def filter_queryset(self, queryset):
+        
+        # Apply the custom degree filter
+        degree_filter = self.request.query_params.get('degree')
+        if degree_filter:
+            queryset = queryset.filter(degree__icontains=degree_filter)
+
+        else:
+             queryset = super().filter_queryset(queryset)
+
+
+        
+        return queryset
     
 
 
@@ -90,6 +111,7 @@ class ApischolarshipsListView(ListAPIView):
         #searching
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ('name', 'University_name', 'course','degree')
+
     
 
 
