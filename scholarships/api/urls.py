@@ -13,11 +13,11 @@ from scholarships.api.views import (
 
     # University_country_Serializer
     Api_University_country_SerializerListView,
-
     # searching
-
     # filter_multile
-    ApischolarshipViewSet
+    ApischolarshipViewSet,
+    #country only and count
+    ApicountryViewSet,
 
 
 
@@ -26,7 +26,8 @@ from scholarships.api.views import (
 app_name = 'scholarships'
 
 router = DefaultRouter()
-router.register(r'scholarships', ApischolarshipViewSet)
+# router.register(r'scholarships_qn',ApischolarshipViewSet),
+router.register(r'countries',ApicountryViewSet )
 
 urlpatterns = [
      path('filter/', include(router.urls)),
@@ -34,6 +35,9 @@ urlpatterns = [
     path('<slug>/', api_scholarship_detail_view, name="detail"),
     # path('create', api_create_record_view, name="create"),
 
+
+    #countries search
+    # path('countries/list', Apicountry_Serializer.as_view(), name="list"),
 
     #main search
     path('scholarship/list', ApischolarshipsListView.as_view(), name="list"),

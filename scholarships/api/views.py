@@ -6,6 +6,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter 
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
+from collections import defaultdict
 
 
 from scholarships.models import(
@@ -15,6 +16,7 @@ from scholarships.models import(
     Guide,
     Universitie,
     submitted_scholarship,
+
     
 )
 
@@ -26,6 +28,7 @@ from scholarships.api.serializers import (
     UniversitySerializer,
     Submitted_scholarshipSerializer,
     University_country_Serializer,
+    country_Serializer,
 
 
     )
@@ -99,6 +102,34 @@ class ApischolarshipViewSet(viewsets.ModelViewSet):
 
         
         return queryset
+    
+
+
+class ApicountryViewSet(viewsets.ModelViewSet):
+    queryset = Scholarship.objects.all()
+    serializer_class = country_Serializer
+
+    def list(self, request, *args, **kwargs):
+        # Get the queryset
+        queryset = self.filter_queryset(self.get_queryset())
+
+        # Aggregate the data
+        aggregated_data = defaultdict(lambda: {'country': None, 'land_mark': None, 'name': 0})
+
+        for scholarship in queryset:
+            country = scholarship.country
+            land_mark = scholarship.land_mark.url if scholarship.land_mark else None
+            
+            if aggregated_data[country]['country'] is None:
+                aggregated_data[country]['country'] = country
+                aggregated_data[country]['land_mark'] = land_mark
+            aggregated_data[country]['name'] += 1
+
+        # Convert to list
+        result = [{'country': data['country'], 'land_mark': data['land_mark'], 'scholarships': str(data['name'])} for data in aggregated_data.values()]
+        print(len(result))
+        return Response(result)
+
     
 
 

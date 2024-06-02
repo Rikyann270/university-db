@@ -28,6 +28,12 @@ def upload_location3(instance, filename, **kwargs):
     )
     return file_path
 
+def upload_location4(instance, filename, **kwargs):
+    file_path = 'land_mark-img/{filename}'.format(
+        filename=filename
+    )
+    return file_path
+
 
 def upload_location2(instance, filename, **kwargs):
     file_path = 'scholarship-icon-images/{filename}'.format(
@@ -104,6 +110,8 @@ class Scholarship(models.Model):
     
     applicants                  = models.IntegerField( null=False,default=0, blank=False,)
     slug                        = models.SlugField(blank=True, max_length=200, unique=True)
+    land_mark                   = models.ImageField(upload_to=upload_location4, null=True, blank=True, max_length=500,)
+
     
     def save(self, *args, **kwargs):
         # deleting old image updating
@@ -252,6 +260,9 @@ class Guide(models.Model):
 def submission_delete(sender, instance, **kwargs):
     if instance.Scholarship_image:
         instance.Scholarship_image.delete(save=False)
+        
+    if instance.land_mark:
+        instance.land_mark.delete(save=False)
 
 
 

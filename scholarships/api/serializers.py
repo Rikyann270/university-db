@@ -27,6 +27,14 @@ class ScholarshipSerializer(serializers.ModelSerializer):
     #     return [degree.name for degree in obj.degree.all()]
 
 
+class country_Serializer(serializers.ModelSerializer):
+    count = serializers.CharField(source='name')
+
+    class Meta:
+        model = Scholarship
+        fields = ['country', 'land_mark',  'count',
+        ]
+
 
 class University_country_Serializer(serializers.ModelSerializer):
     Scholarship = serializers.CharField(source='name')
@@ -36,16 +44,8 @@ class University_country_Serializer(serializers.ModelSerializer):
         model = Scholarship
         fields = ['Scholarship', 'University_name',  'country','country2'
         ]
+
         
-
-    # def get_country2(self, obj):
-    #     universities = Universitie.objects.filter(country=obj.country)
-    #     if universities.exists():
-    #         # Return the country of the first matching University or handle multiple results as needed
-    #         print(universities,"thisssss")
-
-    #         return universities.first().country
-    #     return None
 
     def get_country2(self, obj):
         # check if scholar match univ
