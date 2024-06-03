@@ -18,6 +18,8 @@ from scholarships.api.views import (
     ApischolarshipViewSet,
     #country only and count
     ApicountryViewSet,
+    #Apidegree only and count
+    ApidegreeViewSet,
 
 
 
@@ -26,8 +28,9 @@ from scholarships.api.views import (
 app_name = 'scholarships'
 
 router = DefaultRouter()
-# router.register(r'scholarships_qn',ApischolarshipViewSet),
-router.register(r'countries',ApicountryViewSet )
+router.register(r'scholarships_count',ApischolarshipViewSet,basename='scholarships'),
+router.register(r'countries_count',ApicountryViewSet,basename='countries_count')
+router.register(r'degree_count',ApidegreeViewSet,basename='degree_count' )
 
 urlpatterns = [
      path('filter/', include(router.urls)),

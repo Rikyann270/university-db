@@ -29,6 +29,7 @@ from scholarships.api.serializers import (
     Submitted_scholarshipSerializer,
     University_country_Serializer,
     country_Serializer,
+    degree_Serializer,
 
 
     )
@@ -113,7 +114,7 @@ class ApicountryViewSet(viewsets.ModelViewSet):
         # Get the queryset
         queryset = self.filter_queryset(self.get_queryset())
 
-        # Aggregate the data
+        # Aggregate the data to numbers
         aggregated_data = defaultdict(lambda: {'country': None, 'land_mark': None, 'name': 0})
 
         for scholarship in queryset:
@@ -125,8 +126,33 @@ class ApicountryViewSet(viewsets.ModelViewSet):
                 aggregated_data[country]['land_mark'] = land_mark
             aggregated_data[country]['name'] += 1
 
-        # Convert to list
+        # Convert to list for data to be serailizer
         result = [{'country': data['country'], 'land_mark': data['land_mark'], 'scholarships': str(data['name'])} for data in aggregated_data.values()]
+        print(len(result))
+        return Response(result)
+
+    
+
+class ApidegreeViewSet(viewsets.ModelViewSet):
+    queryset = Scholarship.objects.all()
+    serializer_class = degree_Serializer
+
+    def list(self, request, *args, **kwargs):
+        # Get the queryset
+        queryset = self.filter_queryset(self.get_queryset())
+
+        # Aggregate the data to numbers
+        aggregated_data = defaultdict(lambda: {'degree': None, 'name': 0})
+
+        for scholarship in queryset:
+            degree = scholarship.degree
+            
+            if aggregated_data[degree]['degree'] is None:
+                aggregated_data[degree]['degree'] = degree
+            aggregated_data[degree]['name'] += 1
+
+        # Convert to list for data to be serailizer
+        result = [{'degree': data['degree'], 'scholarships': str(data['name'])} for data in aggregated_data.values()]
         print(len(result))
         return Response(result)
 

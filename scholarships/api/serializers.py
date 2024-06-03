@@ -35,6 +35,13 @@ class country_Serializer(serializers.ModelSerializer):
         fields = ['country', 'land_mark',  'count',
         ]
 
+class degree_Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Scholarship
+        fields = ['degree',
+        ]
+
 
 class University_country_Serializer(serializers.ModelSerializer):
     Scholarship = serializers.CharField(source='name')
