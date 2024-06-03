@@ -28,13 +28,13 @@ from scholarships.api.views import (
 app_name = 'scholarships'
 
 router = DefaultRouter()
-router.register(r'scholarships_count',ApischolarshipViewSet,basename='scholarships'),
+router.register(r'scholarships_Mgr_filter',ApischolarshipViewSet,basename='scholarships'),
 router.register(r'countries_count',ApicountryViewSet,basename='countries_count')
 router.register(r'degree_count',ApidegreeViewSet,basename='degree_count' )
 
 urlpatterns = [
      path('filter/', include(router.urls)),
-    #  http://127.0.0.1:8000/api/scholarships/filter/scholarships?degree=phd&funding_status=Fully funded
+    #  http://127.0.0.1:8000/api/scholarships/filter/scholarships_Mgr_filter/?name=&University_name=&course
     path('<slug>/', api_scholarship_detail_view, name="detail"),
     # path('create', api_create_record_view, name="create"),
 
