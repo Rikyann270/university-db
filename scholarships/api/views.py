@@ -90,18 +90,31 @@ class ApischolarshipViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name', 'University_name', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
                   "degree","course_Abbreviation","subject","applicants","slug",
                   ]
+
     def filter_queryset(self, queryset):
-        
-        # Apply the custom degree filter
-        degree_filter = self.request.query_params.get('degree')
+        filters = self.request.query_params  # Get all filter parameters
+
+        # Apply degree filter (using your existing logic)
+        degree_filter = filters.get('degree')
         if degree_filter:
             queryset = queryset.filter(degree__icontains=degree_filter)
 
-        else:
-             queryset = super().filter_queryset(queryset)
+        # Add filtering logic for other parameters
+        funding_status = filters.get('funding_status')
+        if funding_status:
+            queryset = queryset.filter(funding_status=funding_status)
+            
+        country = filters.get('country')
+        if country:
+            # queryset = queryset.filter(country=country)
+            queryset = queryset.filter(country__icontains=country)
 
+        subject = filters.get('subject')
+        if subject:
+            queryset = queryset.filter(subject__icontains=subject)
 
-        
+   
+
         return queryset
     
 

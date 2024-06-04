@@ -10,21 +10,24 @@ from scholarships.models import(
 )
 
 class ScholarshipSerializer(serializers.ModelSerializer):
-    tags = serializers.SerializerMethodField()   
-    # degree = serializers.SerializerMethodField()   
+    tags = serializers.SerializerMethodField()
+    degree = serializers.SerializerMethodField()   
+    course = serializers.SerializerMethodField()   
 
     class Meta:
         model = Scholarship
         fields = ['name', 'University_name', 'Scholarship_image', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
                   "degree","course_Abbreviation","subject","sponsor","applicants","slug",
                   ]
-        # fields = ["degree",
-        #           ]
 
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
-    # def get_degree(self, obj):
-    #     return [degree.name for degree in obj.degree.all()]
+    
+    def get_degree(self, obj):
+      return obj.degree.split(', ')  # Split the string into a list
+    
+    def get_course(self, obj):
+      return obj.course.split(', ')  # Split the string into a list
 
 
 class country_Serializer(serializers.ModelSerializer):
@@ -45,24 +48,26 @@ class degree_Serializer(serializers.ModelSerializer):
 
 class University_country_Serializer(serializers.ModelSerializer):
     Scholarship = serializers.CharField(source='name')
-    country2 = serializers.SerializerMethodField()
+    # country2 = serializers.SerializerMethodField()
 
     class Meta:
         model = Scholarship
-        fields = ['Scholarship', 'University_name',  'country','country2'
+        fields = ['Scholarship', 'University_name',  'country'
         ]
+        # fields = ['Scholarship', 'University_name',  'country','country2'
+        # ]
 
         
 
-    def get_country2(self, obj):
-        # check if scholar match univ
-        universities = Universitie.objects.filter(name=obj.University_name)
-        if universities.exists():
-            # Concatenate the countries of all matching universities
-            countries = ', '.join(university.name for university in universities if university.name)
+    # def get_country2(self, obj):
+    #     # check if scholar match univ
+    #     universities = Universitie.objects.filter(name=obj.University_name)
+    #     if universities.exists():
+    #         # Concatenate the countries of all matching universities
+    #         countries = ', '.join(university.name for university in universities if university.name)
 
-            return countries
-        return None
+    #         return countries
+    #     return None
 
 
 
