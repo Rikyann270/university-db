@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'premium',
     'jobs',
     'accounts',
+    'countries',
     
     
 

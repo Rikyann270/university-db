@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 def registration_view(request):
 
     if request.method == 'POST':
+        
         serializer = RegistrationSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
@@ -18,7 +19,8 @@ def registration_view(request):
             token = Token.objects.get(user=accounts).key
             data['token'] = token
             # data['phone_number'] = accounts.phone_number
+  
         else:
             data = serializer.errors
-
+        
         return Response(data)

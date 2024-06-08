@@ -110,7 +110,7 @@ class Scholarship(models.Model):
     
     applicants                  = models.IntegerField( null=False,default=0, blank=False,)
     slug                        = models.SlugField(blank=True, max_length=200, unique=True)
-    land_mark                   = models.ImageField(upload_to=upload_location4, null=True, blank=True, max_length=500,)
+    
 
     
     def save(self, *args, **kwargs):
@@ -261,8 +261,6 @@ def submission_delete(sender, instance, **kwargs):
     if instance.Scholarship_image:
         instance.Scholarship_image.delete(save=False)
         
-    if instance.land_mark:
-        instance.land_mark.delete(save=False)
 
 
 

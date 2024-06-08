@@ -31,11 +31,12 @@ class ScholarshipSerializer(serializers.ModelSerializer):
 
 
 class country_Serializer(serializers.ModelSerializer):
-    count = serializers.CharField(source='name')
+    # count = serializers.CharField(source='name')
 
     class Meta:
         model = Scholarship
-        fields = ['country', 'land_mark',  'count',
+        fields = ['country',
+          
         ]
 
 class degree_Serializer(serializers.ModelSerializer):
@@ -52,7 +53,7 @@ class University_country_Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Scholarship
-        fields = ['Scholarship', 'University_name',  'country'
+        fields = ['Scholarship', 'University_name',  'country',
         ]
         # fields = ['Scholarship', 'University_name',  'country','country2'
         # ]
