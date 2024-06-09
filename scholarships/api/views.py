@@ -148,7 +148,7 @@ class ApicountryViewSet(viewsets.ModelViewSet):
         result = [
             {
                 'name': data['country'],
-                'land_mark': data['land_mark'],
+                'landmark': data['land_mark'],
                 'country_code': data['country_code'],
                 'phone_code': data['phone_code'],
                 'scholarships': str(data['name'])

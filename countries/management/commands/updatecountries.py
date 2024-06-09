@@ -13,7 +13,7 @@ class Command(BaseCommand):
         for index, row in df.iterrows():
             country = Country_details.objects.create(
                 country_name = row['country-col'],
-                country_code = row['country_codee'],
+                country_code = row['country_codee2'],
                 phone_code = row['phone_codee']
                 )
         self.stdout.write(self.style.SUCCESS(f'Successfully created: {row['country-col']}'))
