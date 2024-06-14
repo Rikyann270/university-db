@@ -93,7 +93,7 @@ class Scholarship(models.Model):
     default_image_path = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxKE79UQ0gtUhWuaqAs_NILmAYcOPAnItgwo2BPMOLsw&s" 
 
 
-    name                        = models.CharField(max_length=100, null=False, blank=False)
+    name                        = models.CharField(max_length=150, null=False, blank=False)
     University_name             = models.CharField(max_length=100, null=False, blank=False)
     Scholarship_image           = models.ImageField(upload_to=upload_location2, null=True, blank=True, max_length=500,)
     course                      = models.CharField(max_length=100, null=False, blank=True)
