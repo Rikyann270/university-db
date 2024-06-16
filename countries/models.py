@@ -22,8 +22,8 @@ class Country_details(models.Model):
     country_name                    = models.CharField(max_length=50, null=False, blank=False)
     phone_code                      = models.CharField(max_length=10, null=False, blank=False)
     country_code                    = models.CharField(max_length=10, null=False, blank=False)
-    land_mark                       = models.ImageField(upload_to=upload_location4, null=False, blank=True, max_length=500,)
-    land_mark_url                   = models.CharField(max_length=300, null=False, blank=True)
+    land_mark                       = models.ImageField(upload_to=upload_location4, null=True, blank=True, max_length=500,)
+    land_mark_url                   = models.CharField(max_length=300, null=True, blank=True)
  
     
 

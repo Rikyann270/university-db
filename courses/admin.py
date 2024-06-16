@@ -5,7 +5,7 @@ from courses.models import(
     Subject,
 )
 
-admin.site.register(Course_detail)
+# admin.site.register(Course_detail)
 admin.site.register(Subject)
 
 

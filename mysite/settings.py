@@ -25,12 +25,17 @@ SECRET_KEY = 'django-insecure-64y(st*+gp(-u@@!vt5b((9m^2202h--r(^qzaxc95jou^rh@p
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://university-scholarship.up.railway.app',
 
       ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'https://scholar.study',
+]
 
 
 # Application definition
@@ -38,6 +43,7 @@ CSRF_TRUSTED_ORIGINS = [
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,6 +93,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # cors config
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
