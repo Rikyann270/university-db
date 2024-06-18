@@ -9,7 +9,7 @@ from courses.models import Subject
 
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, first_name, second_name, email,phone_number,date_of_birth,citizenship,
+    def create_user(self, username,first_name, second_name, email,phone_number,date_of_birth,citizenship,
                     zip_code,school_level,high_school_name,graduation_date,presently_attending_college,
                     colleges_of_interest,degree_of_pursuit,field_of_study,overall_GPA,career_goal,gender,ethnic_background,
                     password=None
@@ -22,6 +22,7 @@ class MyAccountManager(BaseUserManager):
         
 
         user = self.model(
+            username                    =   username,
             first_name                  =   first_name,                 
             second_name                 =   second_name,                
             email                       =   self.normalize_email(email),
@@ -45,12 +46,13 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, first_name, second_name, email,phone_number,
+    def create_superuser(self,username, first_name, second_name, email,phone_number,
                          date_of_birth,citizenship,
                     zip_code,school_level,high_school_name,graduation_date,presently_attending_college,
                     colleges_of_interest,degree_of_pursuit,field_of_study,overall_GPA,career_goal,gender,ethnic_background,
                     password=None):
         user = self.create_user(
+                username                    =   username,
                 first_name                  =   first_name,                 
                 second_name                 =   second_name,                
                 email                       =   self.normalize_email(email),
@@ -137,8 +139,9 @@ class Account(AbstractBaseUser):
     
     first_name 					= models.CharField(max_length=30, blank=True, null=True )
     second_name 				= models.CharField(max_length=30, blank=True, null=True )
+    username                    = models.CharField(max_length=100, blank=True, null=True, unique=True )
     email 					    = models.EmailField(verbose_name="email", blank=True, max_length=100, unique=True)
-    phone_number                =models.CharField(max_length=13, blank=True, null=True )
+    phone_number                = models.CharField(max_length=13, blank=True, null=True )
     date_of_birth 		    	= models.DateField(null=True,blank=True)
     citizenship                 = models.CharField(max_length=40, blank=True, null=True )
     zip_code                    = models.CharField(max_length=40, blank=True, null=True )
@@ -162,8 +165,8 @@ class Account(AbstractBaseUser):
     is_staff				= models.BooleanField(default=True)
     is_superuser			= models.BooleanField(default=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [ 'first_name','second_name','phone_number','date_of_birth',
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = [ 'email','first_name','second_name','phone_number','date_of_birth',
                        'citizenship','zip_code','school_level','high_school_name','graduation_date',
                        'presently_attending_college','colleges_of_interest','degree_of_pursuit','field_of_study',
                        'overall_GPA','career_goal','gender','ethnic_background',]
@@ -171,7 +174,7 @@ class Account(AbstractBaseUser):
     objects = MyAccountManager()
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
