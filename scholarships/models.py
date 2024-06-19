@@ -15,6 +15,8 @@ from django.core.validators import URLValidator
 
 
 
+
+
 def upload_location(instance, filename, **kwargs):
     file_path = 'university-img/{filename}'.format(
         filename=filename
@@ -274,3 +276,14 @@ def update_slug_on_tags_changed(sender, instance, action, **kwargs):
 
 # Connect the signal to the Scholarship model's m2m_changed signal
 m2m_changed.connect(update_slug_on_tags_changed, sender=Scholarship.tags.through)
+
+
+# Applications
+# class Application(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     scholarship = models.ForeignKey(Scholarship, on_delete=models.CASCADE)
+#     application_status = models.CharField(max_length=255, default='Submitted')
+#     submission_date = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"{self.user.username} - {self.scholarship.name}"
