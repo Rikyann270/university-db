@@ -30,6 +30,7 @@ from scholarships.api.serializers import (
     University_country_Serializer,
     country_Serializer,
     degree_Serializer,
+    single_scholarshipSerializer,
 
 
     )
@@ -44,7 +45,7 @@ def api_scholarship_detail_view(request, slug):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method =="GET":
-        serializer = ScholarshipSerializer(scholarship_info)
+        serializer = single_scholarshipSerializer(scholarship_info)
         return Response(serializer.data)
     
 

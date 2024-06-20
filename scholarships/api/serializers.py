@@ -29,6 +29,27 @@ class ScholarshipSerializer(serializers.ModelSerializer):
     def get_course(self, obj):
       return obj.course.split(', ')  # Split the string into a list
 
+class single_scholarshipSerializer(serializers.ModelSerializer):
+    tags = serializers.SerializerMethodField()
+    degree = serializers.SerializerMethodField()   
+    course = serializers.SerializerMethodField()   
+
+    class Meta:
+        model = Scholarship
+        fields = ['name', 'University_name', 'Scholarship_image', 'course', "eligibity", 'tags', 'country' , "completion_time","closing_date","funding_status",
+                  "degree","course_Abbreviation","subject","sponsor","applicants","slug",
+                  "description","degree_level","available_subjects","benefits","eligible_nationality","eligible_criteria","application","application_link"
+                  ]
+
+    def get_tags(self, obj):
+        return [tag.name for tag in obj.tags.all()]
+    
+    def get_degree(self, obj):
+      return obj.degree.split(', ')  # Split the string into a list
+    
+    def get_course(self, obj):
+      return obj.course.split(', ')  # Split the string into a list
+
 
 class country_Serializer(serializers.ModelSerializer):
     # count = serializers.CharField(source='name')
