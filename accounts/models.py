@@ -139,8 +139,8 @@ class Account(AbstractBaseUser):
     
     first_name 					= models.CharField(max_length=30, blank=True, null=True )
     second_name 				= models.CharField(max_length=30, blank=True, null=True )
-    username                    = models.CharField(max_length=100, blank=True, null=True, unique=True )
-    email 					    = models.EmailField(verbose_name="email", blank=True, max_length=100, unique=True)
+    username                    = models.CharField(max_length=100, blank=False, null=False, unique=True )
+    email 					    = models.EmailField(verbose_name="email", blank=False,null=False, max_length=100, unique=True)
     phone_number                = models.CharField(max_length=13, blank=True, null=True )
     date_of_birth 		    	= models.DateField(null=True,blank=True)
     citizenship                 = models.CharField(max_length=40, blank=True, null=True )

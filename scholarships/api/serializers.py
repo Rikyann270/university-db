@@ -20,6 +20,7 @@ class ScholarshipSerializer(serializers.ModelSerializer):
                   "degree","course_Abbreviation","subject","sponsor","applicants","slug",
                   ]
 
+
     def get_tags(self, obj):
         return [tag.name for tag in obj.tags.all()]
     

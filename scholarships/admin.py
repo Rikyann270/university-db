@@ -60,7 +60,7 @@ class ScholarshipAdmin(admin.ModelAdmin):
     search_fields = ('name', 'country', 'University_name')
     # ordering = ('name',)
     # list_filter = ('country',)
-    list_filter = ('closing_date','country','funding_status','degree','University_name','subject',"application_link")
+    list_filter = ('closing_date','country','funding_status','degree','University_name','subject',"application_link","eligibity")
     list_per_page=100
 
     list_display = ('name', )  # Display a preview of the image in the admin list view

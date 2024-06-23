@@ -113,13 +113,13 @@ class Scholarship(models.Model):
     applicants                  = models.IntegerField( null=False,default=0, blank=False,)
     slug                        = models.SlugField(blank=True, max_length=200, unique=True)
     # other
-    description                 = models.CharField(max_length=2000, null=False, blank=True)
-    degree_level                = models.CharField(max_length=2000, null=False, blank=True)
-    available_subjects          = models.CharField(max_length=2000, null=False, blank=True)
-    benefits                    = models.CharField(max_length=2000, null=False, blank=True)
-    eligible_nationality        = models.CharField(max_length=1500, null=False, blank=True)
-    eligible_criteria           = models.CharField(max_length=2000, null=False, blank=True)
-    application                 = models.CharField(max_length=2000, null=False, blank=True)
+    description                 = models.CharField(max_length=3000, null=False, blank=True)
+    degree_level                = models.CharField(max_length=3000, null=False, blank=True)
+    available_subjects          = models.CharField(max_length=3000, null=False, blank=True)
+    benefits                    = models.CharField(max_length=3000, null=False, blank=True)
+    eligible_nationality        = models.CharField(max_length=3000, null=False, blank=True)
+    eligible_criteria           = models.CharField(max_length=3000, null=False, blank=True)
+    application                 = models.CharField(max_length=4000, null=False, blank=True)
     application_link            = models.URLField(max_length=200, null=False, blank=True)
     
 

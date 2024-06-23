@@ -5,7 +5,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['email', 'first_name','second_name','phone_number','date_of_birth',
+        fields = ['email', 'username','first_name','second_name','phone_number','date_of_birth',
                     'citizenship','zip_code','school_level','high_school_name','graduation_date',
                     'presently_attending_college','colleges_of_interest','degree_of_pursuit','field_of_study',
                     'overall_GPA','career_goal','gender','ethnic_background','password',
@@ -19,6 +19,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
                     first_name                  =self.validated_data['first_name'],
                     second_name                 =self.validated_data['second_name'],
                     email                       =self.validated_data['email'],
+                    username                       =self.validated_data['username'],
                     phone_number                =self.validated_data['phone_number'],
                     date_of_birth               =self.validated_data['date_of_birth'],
                     citizenship                 =self.validated_data['citizenship'],
@@ -42,3 +43,22 @@ class RegistrationSerializer(serializers.ModelSerializer):
         accounts.set_password(password)
         accounts.save()
         return accounts
+    
+
+class AccountUpdateSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['first_name','second_name','phone_number','date_of_birth',
+            'citizenship','zip_code','school_level','high_school_name','graduation_date',
+            'presently_attending_college','colleges_of_interest','degree_of_pursuit','field_of_study',
+            'overall_GPA','career_goal','gender','ethnic_background',
+            ]
+
+class AccountPropertiesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['email', 'username','first_name','second_name','phone_number','date_of_birth',
+                    'citizenship','zip_code','school_level','high_school_name','graduation_date',
+                    'presently_attending_college','colleges_of_interest','degree_of_pursuit','field_of_study',
+                    'overall_GPA','career_goal','gender','ethnic_background','password'
+                    ]
