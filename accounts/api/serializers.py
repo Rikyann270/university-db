@@ -62,3 +62,10 @@ class AccountPropertiesSerializers(serializers.ModelSerializer):
                     'presently_attending_college','colleges_of_interest','degree_of_pursuit','field_of_study',
                     'overall_GPA','career_goal','gender','ethnic_background','password'
                     ]
+
+
+class AccountLoginSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['username','password'
+                    ]
