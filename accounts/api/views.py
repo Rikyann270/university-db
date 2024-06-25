@@ -4,12 +4,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import  IsAuthenticated
 from django.contrib.auth import authenticate, login
 
+from accounts.models import Scholar_liked
+
 
 from accounts.api.serializers import (
     RegistrationSerializer,
     AccountUpdateSerializers,
     AccountPropertiesSerializers,
     AccountLoginSerializers,
+    ScholarLikedSerializer,
                                       )
 from rest_framework.authtoken.models import Token
 
@@ -48,7 +51,16 @@ def login_view(request):
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)  # Retrieve or create token for the user
             serializer = AccountPropertiesSerializers(user)
-            return Response({'user': serializer.data, 'token': token.key})
+            # Retrieve all Scholar_liked entries for the user
+            liked_scholars = Scholar_liked.objects.filter(user=user)
+            liked_scholars_serializer = ScholarLikedSerializer(liked_scholars, many=True)
+            
+
+            return Response({
+                'user': serializer.data,
+                'token': token.key,
+                'liked_scholars': liked_scholars_serializer.data
+            })
         else:
             return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 

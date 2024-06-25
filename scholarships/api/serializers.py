@@ -123,3 +123,15 @@ class UniversitySerializer(serializers.ModelSerializer):
         
         fields = ['name' ]
 
+
+class LikeAddSerializer(serializers.ModelSerializer):   
+
+    class Meta:
+        model = Scholarship
+        
+        fields = ['likes']
+
+        def update(self, instance, validated_data):
+            instance.likes = validated_data.get('likes', instance.likes)
+            instance.save()
+            return instance

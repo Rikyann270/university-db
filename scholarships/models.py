@@ -13,6 +13,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.validators import URLValidator
 
+from accounts.models import Scholar_liked
 
 
 
@@ -110,9 +111,10 @@ class Scholarship(models.Model):
     subject                     = models.CharField(max_length=100, null=False,blank=True)
     sponsor                     = models.CharField(max_length=100,default='', null=False,blank=True)
     
-    applicants                  = models.IntegerField( null=False,default=0, blank=False,)
+    applicants                  = models.PositiveIntegerField(default=0)
     slug                        = models.SlugField(blank=True, max_length=200, unique=True)
     # other
+    likes                       = models.PositiveIntegerField(default=0)
     description                 = models.CharField(max_length=3000, null=False, blank=True)
     degree_level                = models.CharField(max_length=3000, null=False, blank=True)
     available_subjects          = models.CharField(max_length=3000, null=False, blank=True)
@@ -123,7 +125,17 @@ class Scholarship(models.Model):
     application_link            = models.URLField(max_length=200, null=False, blank=True)
     
 
-    
+    # def increment_likes(self, user):
+    #     self.likes += 1
+    #     self.save()
+    #     print("taction detected trying to commit")
+        
+    #     Scholar_liked.objects.create(
+    #         user=user,
+    #         liked_scholarship=self.name,
+    #         liked_scholarship_slug=self.slug,
+    # )
+
     def save(self, *args, **kwargs):
         # deleting old image updating
         if self.pk:
@@ -181,6 +193,7 @@ class Scholarship(models.Model):
             
             
         
+
 
 
     def __str__(self):
@@ -267,13 +280,16 @@ class Guide(models.Model):
 
 
 
+
+
+
+
+
 @receiver(post_delete, sender=Scholarship)
 def submission_delete(sender, instance, **kwargs):
     if instance.Scholarship_image:
         instance.Scholarship_image.delete(save=False)
         
-
-
 
 # Define a function to update the slug whenever the tags are modified
 def update_slug_on_tags_changed(sender, instance, action, **kwargs):
@@ -287,12 +303,3 @@ def update_slug_on_tags_changed(sender, instance, action, **kwargs):
 m2m_changed.connect(update_slug_on_tags_changed, sender=Scholarship.tags.through)
 
 
-# Applications
-# class Application(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     scholarship = models.ForeignKey(Scholarship, on_delete=models.CASCADE)
-#     application_status = models.CharField(max_length=255, default='Submitted')
-#     submission_date = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f"{self.user.username} - {self.scholarship.name}"

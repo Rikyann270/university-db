@@ -11,6 +11,7 @@ from scholarships.models import(
      Tag,
     Degree,
      Guide,
+ 
     
   )
 
@@ -92,4 +93,5 @@ admin.site.register(submitted_scholarship)
 admin.site.register(Tag)
 admin.site.register(Degree)
 admin.site.register(Guide)
+
 

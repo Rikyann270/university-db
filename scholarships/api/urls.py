@@ -21,6 +21,9 @@ from scholarships.api.views import (
     #Apidegree only and count
     ApidegreeViewSet,
 
+    # other requests
+    like_scholar_view
+
 
 
     )
@@ -54,6 +57,8 @@ urlpatterns = [
     path('universities/list', ApiuniversitySerializerListView.as_view(), name="list"),
     path('submitted_scholarship/list', Apisubmitted_scholarshipListView.as_view(), name="list"),
     path('university_country/list', Api_University_country_SerializerListView.as_view(), name="list"),
+    # other requests
+    path('<slug>', like_scholar_view, name="like_scholar"),
 
 
 

@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from courses.models import Subject
+# from scholarships.models import Scholarship
+
 
 
 class MyAccountManager(BaseUserManager):
@@ -83,59 +85,6 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-    # Degree_pursuit=(
-    #     ('Phd', 'Phd'),
-    #     ('Diploma', 'Diploma'),
-    #     ('Masters', 'Masters'),
-    #     ('Bachelor', 'Bachelor'),
-    #     ('Research', 'Research'),
-
-    #         )
-    # gender_fl=(
-    #     ('male', 'male'),
-    #     ('female', 'female'),
-    #     ('other', 'other'),
-
-
-    #         )
-    # gpa_fl=(
-    #     ('N/A', 'N/A'),
-    #     ('2.0', '2.0'),
-    #     ('2.1', '2.1'),
-    #     ('2.2', '2.2'),
-    #     ('2.3', '2.3'),
-    #     ('2.4', '2.4'),
-    #     ('2.5', '2.5'),
-    #     ('2.6', '2.6'),
-    #     ('2.7', '2.7'),
-    #     ('2.8', '2.8'),
-    #     ('2.9', '2.9'),
-    #     ('3.0', '3.0'),
-    #     ('3.1', '3.1'),
-    #     ('3.2', '3.2'),
-    #     ('3.3', '3.3'),
-    #     ('3.4', '3.4'),
-    #     ('3.5', '3.5'),
-    #     ('3.6', '3.6'),
-    #     ('3.7', '3.7'),
-    #     ('3.8', '3.8'),
-    #     ('3.9', '3.9'),
-    #     ('4.0', '4.0'),
-    #         )
-    # career_goal_fl=(
-    #     ('Art,Design or Fasion', 'Art,Design or Fasion'),
-    #     ('Beauty or Cosmetology', 'Beauty or Cosmetology'),
-    #     ('Marketing, Business or Management', 'Marketing, Business or Management'),
-    #     ('Computers, IT or Techinology', 'Computers, IT or Techinology'),
-    #     ('Culinary Arts', 'Culinary Arts'),
-    #     ('Health Care ,Nursing', 'Health Care ,Nursing'),
-    #     ('Law,Criminal Justice', 'Law,Criminal Justice'),
-    #     ('Teaching / Education', 'Teaching / Education'),
-
-
-
-
-    #         )
     
     first_name 					= models.CharField(max_length=30, blank=True, null=True )
     second_name 				= models.CharField(max_length=30, blank=True, null=True )
@@ -156,6 +105,8 @@ class Account(AbstractBaseUser):
     career_goal                 =models.CharField(max_length=40, blank=True, null=True )
     gender                      =models.CharField(max_length=40, blank=True, null=True )
     ethnic_background           =models.CharField(max_length=40, blank=True, null=True )
+    # other
+
     
     
     date_joined				= models.DateTimeField(verbose_name='date joined', auto_now_add=True)
@@ -186,3 +137,15 @@ class Account(AbstractBaseUser):
 def create_auth_token(sender, instance=None, created=True, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+# Applications
+class Scholar_liked(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # liked_scholarships               = models.ManyToManyField(Scholarship, related_name='scholarships')
+    liked_scholarship = models.CharField(max_length=160, blank=False,null=False, default='')
+    liked_scholarship_slug = models.CharField(max_length=230, blank=False,null=False, default='')
+    submission_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.liked_scholarship}"

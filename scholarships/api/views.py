@@ -1,12 +1,15 @@
 from rest_framework import status,viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter 
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
 from collections import defaultdict
+from rest_framework.permissions import  IsAuthenticated
+from accounts.models import Scholar_liked
+
 
 
 from scholarships.models import(
@@ -31,6 +34,7 @@ from scholarships.api.serializers import (
     country_Serializer,
     degree_Serializer,
     single_scholarshipSerializer,
+    LikeAddSerializer,
 
 
     )
@@ -207,3 +211,29 @@ class Apisubmitted_scholarshipListView(ListAPIView):
     pagination_class = PageNumberPagination
 
 
+@api_view(['PUT',])
+@permission_classes((IsAuthenticated,))
+def like_scholar_view(request, slug):
+    try:
+        scholarship = Scholarship.objects.get(slug=slug)
+    except Scholarship.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    account = request.user
+
+    if request.method == 'PUT':
+        scholarship.likes += 1
+        serializer = LikeAddSerializer(instance=scholarship, data={'likes': scholarship.likes}, partial=True)
+   
+
+        if serializer.is_valid():
+            Scholar_liked.objects.create(
+                user=request.user,
+                liked_scholarship=scholarship.name,
+                liked_scholarship_slug=scholarship.slug,
+            )
+
+            serializer.save()
+            print(scholarship.likes)
+            # data['response'] = "liked successfully"
+            return Response({"response": "Liked successfully"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)

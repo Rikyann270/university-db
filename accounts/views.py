@@ -7,3 +7,4 @@ def home_screen_view(request):
 	# context['some_text'] = 'some text from view'
 	# context['chat_history'] = chat_history
 	return render(request, "base.html")
+

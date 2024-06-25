@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from accounts.models import Account
+from accounts.models import (
+    Account,
+    Scholar_liked)
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
@@ -69,3 +71,12 @@ class AccountLoginSerializers(serializers.ModelSerializer):
         model = Account
         fields = ['username','password'
                     ]
+
+class ScholarLikedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Scholar_liked
+        fields = ['liked_scholarship','liked_scholarship_slug'
+                    ]
+
+
+
